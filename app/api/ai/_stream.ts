@@ -1,4 +1,10 @@
-import { getOpenAI } from "@/lib/openai";
+import { getGoogleGenerativeAI } from "@/lib/gemini";
+
+/** Maps legacy OpenAI-style names to Gemini model IDs. */
+const MODEL_ALIASES: Record<string, string> = {
+  "gpt-4o": "gemini-2.0-flash",
+  "gpt-4o-mini": "gemini-1.5-flash-8b",
+};
 
 export async function streamCompletion(
   systemPrompt: string,
@@ -6,20 +12,20 @@ export async function streamCompletion(
   model: "gpt-4o" | "gpt-4o-mini" = "gpt-4o",
   maxTokens = 3000,
 ): Promise<Response> {
-  const stream = await getOpenAI().chat.completions.create({
-    model,
-    max_tokens: maxTokens,
-    stream: true,
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userContent },
-    ],
+  const genAI = getGoogleGenerativeAI();
+  const modelId = MODEL_ALIASES[model] ?? model;
+  const geminiModel = genAI.getGenerativeModel({
+    model: modelId,
+    systemInstruction: systemPrompt,
+    generationConfig: { maxOutputTokens: maxTokens },
   });
+
+  const result = await geminiModel.generateContentStream(userContent);
 
   const readable = new ReadableStream({
     async start(controller) {
-      for await (const chunk of stream) {
-        const text = chunk.choices[0]?.delta?.content ?? "";
+      for await (const chunk of result.stream) {
+        const text = chunk.text();
         if (text) controller.enqueue(new TextEncoder().encode(text));
       }
       controller.close();

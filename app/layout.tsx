@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "LexDraft",
-  description: "Legal AI workspace — local-first, OpenAI-powered",
+  description: "Legal AI workspace — local-first, Gemini-powered",
 };
 
 export default function RootLayout({

@@ -1,4 +1,4 @@
-import { getOpenAI } from "@/lib/openai";
+import { getGoogleGenerativeAI } from "@/lib/gemini";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -11,13 +11,10 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const completion = await getOpenAI().chat.completions.create({
-    model: "gpt-4o",
-    response_format: { type: "json_object" },
-    messages: [
-      {
-        role: "system",
-        content: `You are a senior legal analyst. Analyze the provided ${docType} agreement governed by ${jurisdiction} law, drafted to favor ${ourParty}.
+  const genAI = getGoogleGenerativeAI();
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.0-flash",
+    systemInstruction: `You are a senior legal analyst. Analyze the provided ${docType} agreement governed by ${jurisdiction} law, drafted to favor ${ourParty}.
 
 Return a JSON object with exactly this structure:
 {
@@ -41,15 +38,11 @@ Return a JSON object with exactly this structure:
   "definedTerms": ["Term1", "Term2"],
   "negotiationLeverage": "2-3 sentences on which party has more leverage and why"
 }`,
-      },
-      {
-        role: "user",
-        content: contentText,
-      },
-    ],
+    generationConfig: { responseMimeType: "application/json" },
   });
 
-  const text = completion.choices[0].message.content ?? "{}";
+  const result = await model.generateContent(contentText);
+  const text = result.response.text() ?? "{}";
 
   try {
     return Response.json(JSON.parse(text));
