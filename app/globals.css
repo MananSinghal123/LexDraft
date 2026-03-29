@@ -1,0 +1,202 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #0c0e13;
+  --bg-surface: #12151c;
+  --bg-elevated: #1a1e2a;
+  --bg-hover: #222840;
+  --bg-document: #f8f6f1;
+  --border-subtle: #1e2235;
+  --border-mid: #2a3050;
+  --border-strong: #3d4968;
+  --text-primary: #ddd9cf;
+  --text-secondary: #7a8099;
+  --text-hint: #454d68;
+  --text-doc: #18181b;
+  --text-doc-muted: #52525b;
+  --gold: #c4973d;
+  --gold-dim: #7a5c1e;
+  --gold-subtle: #1e1808;
+  --gold-text: #f0c96e;
+  --risk-high: #b83232;
+  --risk-high-bg: #1c0a0a;
+  --risk-med: #c47a1a;
+  --risk-med-bg: #1c1004;
+  --risk-low: #2a7a4a;
+  --risk-low-bg: #071510;
+  --risk-info: #2563eb;
+  --risk-info-bg: #060f1e;
+  --track-ins: #166534;
+  --track-ins-bg: #dcfce7;
+  --track-del: #991b1b;
+  --track-del-bg: #fee2e2;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-ui: "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.lexdraft-editor {
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--text-doc);
+  min-height: 80vh;
+  padding: 48px 56px;
+  outline: none;
+}
+
+.lexdraft-editor h1 {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 32px 0 16px;
+  line-height: 1.3;
+}
+
+.lexdraft-editor h2 {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 24px 0 12px;
+}
+
+.lexdraft-editor h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 16px 0 8px;
+}
+
+.lexdraft-editor p {
+  margin-bottom: 14px;
+}
+
+.lexdraft-editor ol,
+.lexdraft-editor ul {
+  padding-left: 24px;
+  margin-bottom: 14px;
+}
+
+.lexdraft-editor li {
+  margin-bottom: 6px;
+}
+
+.mark-insertion {
+  background: var(--track-ins-bg);
+  color: var(--track-ins);
+  border-radius: 2px;
+}
+
+.mark-deletion {
+  background: var(--track-del-bg);
+  color: var(--track-del);
+  text-decoration: line-through;
+  border-radius: 2px;
+}
+
+.streaming-response {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.streaming-response h2 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--gold-text);
+  margin: 18px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.streaming-response h3 {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 12px 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.streaming-response p {
+  margin-bottom: 10px;
+}
+
+.streaming-response ul,
+.streaming-response ol {
+  padding-left: 16px;
+  margin-bottom: 10px;
+  color: var(--text-secondary);
+}
+
+.streaming-response li {
+  margin-bottom: 4px;
+}
+
+.streaming-response strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.memo-style {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-mid);
+  border-radius: 6px;
+  padding: 16px;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.cursor-blink {
+  color: var(--gold);
+  animation: blink 1s step-end infinite;
+  margin-left: 1px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-mid);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
